@@ -1,5 +1,6 @@
 // Test feature 1
 import React from "react";
+import Filter from "./components/Filter";
 import Products from "./components/Products";
 import data from "./data.json"
 
@@ -13,6 +14,23 @@ class App extends React.Component {
     };
   }
 
+  // function to handle sort and filter products
+  sortProducts = (e) => {
+    console.log(e.target.value)
+  }
+
+  filterProducts = (e) => {
+    if(e.target.value === "") {
+      this.setState({size: "", products: data.products})
+    }
+    else {
+      this.setState({
+        size: e.target.value,
+        products: data.products.filter(product => product.availableSizes.indexOf(e.target.value) >= 0)   
+      })
+    } 
+  }
+
   render() {
     return (
       <div className="grid-container">
@@ -22,6 +40,13 @@ class App extends React.Component {
         <main>
           <div className="content">
             <div className="main">
+              <Filter 
+                count={this.state.products.length}
+                size={this.state.size}
+                sort={this.state.sort}
+                sortProducts={this.sortProducts}
+                filterProducts={this.filterProducts}
+              />
               <Products products={this.state.products} />
             </div>
             <div className="sidebar">Cart</div>
