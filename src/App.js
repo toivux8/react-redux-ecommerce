@@ -16,7 +16,18 @@ class App extends React.Component {
 
   // function to handle sort and filter products
   sortProducts = (e) => {
-    console.log(e.target.value)
+    console.log(e.target.value);
+    const sort = e.target.value;
+    this.setState((state) => ({
+      sort: sort,
+      products: this.state.products.slice().sort((a,b) =>(
+        sort === "lowest" ? 
+        ((a.price > b.price) ? 1:-1):
+        sort === "highest" ?
+        ((a.price < b.price) ? 1:-1):
+        ((a._id > b._id) ? 1:-1)
+      ))
+    }));
   }
 
   filterProducts = (e) => {
