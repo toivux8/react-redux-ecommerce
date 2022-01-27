@@ -33,6 +33,12 @@ class App extends React.Component {
     this.setState({cartItems});
   }
 
+  // Remove from cart
+  removeFromCart = (product) => {
+    const cartItems = this.state.cartItems.slice();
+    this.setState({cartItems: cartItems.filter(x => x._id !== product._id)})
+  }
+
   // function to handle sort and filter products
   sortProducts = (e) => {
     console.log(e.target.value);
@@ -83,7 +89,10 @@ class App extends React.Component {
               />
             </div>
             <div className="sidebar">
-              <Cart cartItems={this.state.cartItems} />
+              <Cart 
+                cartItems={this.state.cartItems}
+                removeFromCart={this.removeFromCart}
+              />
             </div>
           </div>
         </main>
