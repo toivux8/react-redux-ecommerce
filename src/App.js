@@ -10,13 +10,13 @@ class App extends React.Component {
     super();
     this.state = {
       products: data.products,
-      cartItems: [],
+      cartItems: localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")) : [],
       size: "",
       sort: ""
     };
   }
 
-  // Cart Items
+  // Add Cart Items
   addToCart = (product) => {
     let alreadyInCart = false;
     const cartItems = this.state.cartItems.slice();
@@ -31,12 +31,14 @@ class App extends React.Component {
       cartItems.push({ ...product, count: 1 })
     }
     this.setState({cartItems});
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }
 
   // Remove from cart
   removeFromCart = (product) => {
     const cartItems = this.state.cartItems.slice();
-    this.setState({cartItems: cartItems.filter(x => x._id !== product._id)})
+    this.setState({cartItems: cartItems.filter((x) => x._id !== product._id)});
+    localStorage.setItem("cartItems", JSON.stringify(cartItems.filter((x) => x._id !== product._id)));
   }
 
   // function to handle sort and filter products
